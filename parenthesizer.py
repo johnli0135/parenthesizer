@@ -79,18 +79,23 @@ def lex(line, symbols):
       state = DEFAULT
 
 def parenthesize(lines):
-  variadic = -1
   prefix = "/"
   closing_punctuation = ",;."
-  braces = "{}()[]"
+  opening_braces = "[{("
+  closing_braces = ")}]"
+  braces = opening_braces + closing_braces
   indentation = "    "
+
+  # codes for demands[]
+  variadic = -1
+  unresolvable = -2
 
   result = []
 
   bindings = {} # maps identifiers to arities (-1 if variadic)
   scopes = {} # maps indentation levels to operators
   levels = [] # list of indentation levels with keys in scopes
-  demands = [] # the number arguments left to satisfy the last operator on the call stack (negative if variadic)
+  demands = [] # the number arguments left to satisfy the last operator on the call stack
   disabled = [False] # whether or not to process inputs
 
   def buffer():
@@ -100,7 +105,7 @@ def parenthesize(lines):
     result[-1] += s
 
   def append(s):
-    if buffer().strip() != "":
+    if buffer().strip() != "" and buffer().strip()[-1] not in opening_braces:
       result[-1] += " "
     write(s)
 
@@ -108,16 +113,20 @@ def parenthesize(lines):
     result.append("")
 
   # create a new demand
-  def demand(arity, indent_level):
-    demands.append(arity)
+  def demand(value, indent_level):
+    demands.append(value)
     if indent_level in scopes:
       scopes[indent_level] += 1
     else:
       scopes[indent_level] = 1
       levels.append(indent_level)
 
-  # close a demand
-  def resolve():
+  # the top demand is resolvable
+  def resolvable():
+    return demands[-1] != unresolvable
+
+  # close even an unresolvable demand
+  def force_resolve():
     write(")")
     demands.pop()
 
@@ -130,9 +139,15 @@ def parenthesize(lines):
     if len(demands) > 0:
       appease()
 
+  # close a demand
+  def resolve():
+    if not resolvable():
+      return
+    force_resolve()
+
   # appease a demand
   def appease():
-    if demands[-1] == variadic:
+    if demands[-1] == variadic or not resolvable():
       return
 
     demands[-1] -= 1
@@ -140,7 +155,7 @@ def parenthesize(lines):
       resolve()
 
   def deindent(old, new):
-    while len(levels) > 0 and levels[-1] >= new:
+    while len(levels) > 0 and resolvable() and levels[-1] >= new:
       resolve()
 
   # directives
@@ -197,10 +212,9 @@ def parenthesize(lines):
       # handle the new line
       newline()
       write(" " * indent)
-      for token in lex(code, closing_punctuation): # include braces? harder to force spaces in output that way
+      for token in lex(code, closing_punctuation + braces):
         #print(token, bindings)
         #print(result, demands, scopes)
-        # normal binding
         if token in bindings:
           append("(" + token)
           demand(bindings[token], indent)
@@ -208,11 +222,14 @@ def parenthesize(lines):
         elif token[-1] == ":" and token[:-1] in bindings:
           append("(" + token[:-1])
           demand(variadic, indent)
-        # close a binding
         elif token in closing_punctuation:
           resolve()
-        # normal token
-        else:
+        elif token in closing_braces:
+          force_resolve()
+        elif token in opening_braces:
+          append(token)
+          demand(unresolvable, indent)
+        else: # normal token
           append(token)
           appease()
 
