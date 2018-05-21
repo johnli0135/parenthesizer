@@ -24,10 +24,18 @@ Since directives tell the parenthesizer the arity of many common operators, many
 
 For example:
 ```C
+/use racket.txt
 define (fact n)
     if = n 1
         1
-        (fact - n 1)
+        * n (fact - n 1)
+```
+will generate
+```racket
+(define (fact n)
+    (if (= n 1)
+        1
+        (* n (fact (- n 1)))))
 ```
 
 ## Punctuation
