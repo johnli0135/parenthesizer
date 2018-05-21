@@ -18,9 +18,9 @@ Knowledge of operator arity is given through directives. A directive is any line
 
 `//`: line comment.
 
-`/off`: disable any processing until the next `/on` directive.
+`/off`: disable any parenthesizing until the next `/on` directive (i.e. copy lines verbatim).
 
-`/on`: re-enable processing.
+`/on`: re-enable parenthesizing.
 
 ## Simple operators
 
@@ -29,10 +29,10 @@ Since directives tell the parenthesizer the arity of common operators, many pare
 For example,
 ```racket
 /use racket.txt
-define (fact n)
+(define (fact n)
     if = n 0
         1
-        * n (fact - n 1)
+        * n (fact - n 1))
 ```
 will generate
 ```racket
@@ -46,10 +46,19 @@ If you really want, you can use a directive to remove even more parentheses:
 ```racket
 /use racket.txt
 /def fact 1
-define fact n
+(define fact n
     if = n 0
         1
-        * n fact - n 1
+        * n fact - n 1)
+```
+
+Superfluous parentheses can still be added for clarity:
+```racket
+/use racket.txt
+(define (fact n)
+    if (= n 0)
+        1
+        * n (fact - n 1))
 ```
 
 ## Punctuation
@@ -95,14 +104,13 @@ will generate
 ```
 
 Variant of the first punctuation example, using whitespace instead:
-
 ```racket
 /use racket.txt
 define (f x y)
     display x
-    // trigger a closing parenthesis for display x
+    // close display x
     display y
-    // trigger a closing parenthesis for display y
+    // close display y
     + x y
 // close the define
 ```

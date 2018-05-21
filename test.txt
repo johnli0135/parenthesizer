@@ -35,16 +35,16 @@ define (f x y)
 
 define x 3.
 
-define (fact n)
-    if = n 1
+(define (fact n)
+    if (= n 1)
         1
-        * n (fact - n 1)
+        * n (fact - n 1))
 
 /def fact 1
 define fact n
     if = n 1
         1
-        * n fact - n 1
+        * n fact (- n 1)
 
 fact 3
 
@@ -58,7 +58,7 @@ fact 3
 
 define (file->string file)
    foldl
-       lambda (x y) (string-append x "\n" y)
+       lambda (x y) string-append x "\n" y
        ""
        file->lines file
 
