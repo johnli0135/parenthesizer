@@ -91,7 +91,7 @@ def parenthesize(lines):
 
   result = []
 
-  bindings = {} # maps identifiers to arities (-1 if variadic)
+  bindings = {} # maps identifiers to arities
   masked = {} # identifiers that are masked by mask command
   scopes = {} # maps indentation levels to operators
   levels = [] # list of indentation levels with keys in scopes
@@ -230,7 +230,7 @@ def parenthesize(lines):
           append("(" + token)
           demand(bindings[token], indent)
         # forced variadic binding
-        elif token[-1] == ":" and token[:-1] in bindings:
+        elif token[-1] == ":" and token[:-1] in bindings and token[:-1] not in masked:
           append("(" + token[:-1])
           demand(variadic, indent)
         elif token in closing_punctuation:
