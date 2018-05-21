@@ -70,7 +70,7 @@ A colon at the end of an operator name forces the operator to take a variable nu
 
 ## Whitespace
 
-Going from higher to lower indentation closes any blocks in between.
+Going from higher to lower-or-same indentation closes any blocks in between.
 
 End-of-file is treated as a blank line of lowest possible indentation level.
 
@@ -94,15 +94,15 @@ will generate
       y))
 ```
 
-An esoteric variant of the first punctuation example:
+Variant of the first punctuation example, using whitespace instead:
 
 ```racket
 /use racket.txt
 define (f x y)
     display x
-   // trigger a closing parenthesis for display x
-   display y
-  // trigger a closing parenthesis for display y
-  + x y
+    // trigger a closing parenthesis for display x
+    display y
+    // trigger a closing parenthesis for display y
+    + x y
 // close the define
 ```

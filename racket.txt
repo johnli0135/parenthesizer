@@ -7,3 +7,26 @@
 /def display
 /def let
 /def if 3
+/def struct 2
+/def lambda
+/def cons 2
+/def first 1
+/def rest 1
+/def list
+/def letrec
+/def let
+/def list->string 1
+/def string->list 1
+/def hash
+/def cond
+/def char-whitespace? 1
+/def char-numeric? 1
+/def equal? 2
+/def match-letrec
+/def match-let
+/def foldl 3
+/def string-append
+/def file->lines 1
+/def and 2
+/def or 2
+/def hash-has-key? 2

@@ -23,8 +23,8 @@ let [(a 3)
 
 define (f x y)
     display x
-   display y
-  + x y
+    display y
+    + x y
 
 define (f x y)
 /off
@@ -55,3 +55,16 @@ fact 4
 /unmask fact
 
 fact 3
+
+define (file->string file)
+   foldl
+       lambda (x y) (string-append x "\n" y)
+       ""
+       file->lines file
+
+define (swap stack)
+    let ([tail rest rest stack]
+         [top first stack]
+         [mid first rest stack])
+        cons mid (cons top tail)
+

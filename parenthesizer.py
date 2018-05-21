@@ -127,7 +127,6 @@ def parenthesize(lines):
 
   # close even an unresolvable demand
   def force_resolve():
-    write(")")
     demands.pop()
 
     level = levels[-1]
@@ -143,6 +142,7 @@ def parenthesize(lines):
   def resolve():
     if not resolvable():
       return
+    write(")")
     force_resolve()
 
   # appease a demand
@@ -205,7 +205,7 @@ def parenthesize(lines):
 
     # if directive, handle it and skip this line
     if code.startswith(prefix):
-      tokens = code[len(prefix):].split(" ")
+      tokens = code[len(prefix):].split()
       directive = tokens[0]
       arguments = tokens[1:]
       if not disabled[0] or directive == "on":
@@ -217,7 +217,7 @@ def parenthesize(lines):
     # a normal line of code
     else:
       # close any brackets from indentation changes
-      if last_indent is not None and indent < last_indent:
+      if last_indent is not None and indent <= last_indent:
         deindent(last_indent, indent)
 
       # handle the new line
@@ -227,15 +227,22 @@ def parenthesize(lines):
         #print(token, bindings)
         #print(result, demands, scopes)
         if token in bindings and token not in masked:
-          append("(" + token)
-          demand(bindings[token], indent)
+          if len(buffer()) > 0 and buffer()[-1] in opening_braces: # there is a superfluous paren
+            append(token) # dont' demand anything and let the paren handle it
+          else:
+            append("(" + token)
+            demand(bindings[token], indent)
         # forced variadic binding
         elif token[-1] == ":" and token[:-1] in bindings and token[:-1] not in masked:
-          append("(" + token[:-1])
-          demand(variadic, indent)
+          if len(buffer()) > 0 and buffer()[-1] in opening_braces: # there is a superfluous paren
+            append(token[:-1]) # dont' demand anything and let the paren handle it
+          else:
+            append("(" + token[:-1])
+            demand(variadic, indent)
         elif token in closing_punctuation:
           resolve()
         elif token in closing_braces:
+          write(token)
           force_resolve()
         elif token in opening_braces:
           append(token)
