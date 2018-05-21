@@ -23,7 +23,7 @@ Knowledge of operator arity is given through directives. A directive is any line
 Since directives tell the parenthesizer the arity of common operators, many parentheses can be omitted.
 
 For example:
-```C
+```racket
 /use racket.txt
 define (fact n)
     if = n 0
@@ -42,7 +42,7 @@ will generate
 
 A comma, semicolon, or period can serve as a closing parenthesis for an operator that takes a variable number of arguments:
 
-```C
+```racket
 /use racket.txt
 define (f x y) 
     display x;
@@ -64,7 +64,7 @@ End-of-file is treated as a blank line of lowest possible indentation level.
 
 Indentations are preserved after addition of parentheses.
 
-```C
+```racket
 /use racket.txt
 define (f x y)
     +
@@ -83,7 +83,7 @@ will generate
 
 An esoteric variant of the first punctuation example:
 
-```C
+```racket
 /use racket.txt
 define (f x y)
     display x
@@ -95,7 +95,7 @@ define (f x y)
 ```
 
 If you want, you can use a directive to remove even more parentheses from the `fact n` example:
-```C
+```racket
 /use racket.txt
 /def fact 1
 define fact n
