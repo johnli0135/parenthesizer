@@ -84,7 +84,6 @@ def parenthesize(lines):
   opening_braces = "[{("
   closing_braces = ")}]"
   braces = opening_braces + closing_braces
-  indentation = "    "
 
   # codes for demands[]
   variadic = -1
