@@ -10,7 +10,11 @@ Knowledge of operator arity is given through directives. A directive is any line
 
 `/use f`: process a file `f` and include the results in the current file.
 
-`/def f [arity]`: define an operator `f` to take `arity` arguments, or to take a variable number of arguments if `arity` is not specified.
+`/def f n`: define an operator `f` to take `n` arguments, or to take a variable number of arguments if `n` is not specified.
+
+`/mask f`: treat `f` as a normal identifier rather than an operator.
+
+`/unmask f`: undo `/mask f`.
 
 `//`: line comment.
 

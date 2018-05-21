@@ -93,6 +93,7 @@ def parenthesize(lines):
   result = []
 
   bindings = {} # maps identifiers to arities (-1 if variadic)
+  masked = {} # identifiers that are masked by mask command
   scopes = {} # maps indentation levels to operators
   levels = [] # list of indentation levels with keys in scopes
   demands = [] # the number arguments left to satisfy the last operator on the call stack
@@ -147,6 +148,8 @@ def parenthesize(lines):
 
   # appease a demand
   def appease():
+    if len(demands) == 0:
+      return
     if demands[-1] == variadic or not resolvable():
       return
 
@@ -168,6 +171,13 @@ def parenthesize(lines):
   def define(name, arity=variadic):
     bindings[name] = int(arity)
 
+  def mask(name):
+    masked[name] = True
+
+  def unmask(name):
+    if name in masked:
+      del masked[name]
+
   def comment(*args):
     pass
 
@@ -180,6 +190,8 @@ def parenthesize(lines):
   directives = {
     "use": use,
     "def": define,
+    "mask": mask,
+    "unmask": unmask,
     "/": comment,
     "off": disable,
     "on": enable
@@ -215,7 +227,7 @@ def parenthesize(lines):
       for token in lex(code, closing_punctuation + braces):
         #print(token, bindings)
         #print(result, demands, scopes)
-        if token in bindings:
+        if token in bindings and token not in masked:
           append("(" + token)
           demand(bindings[token], indent)
         # forced variadic binding
