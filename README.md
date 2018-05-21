@@ -14,6 +14,10 @@ Knowledge of operator arity is given through directives. A directive is any line
 
 `//`: line comment.
 
+`/off`: disable any processing until the next `/on` directive.
+
+`/on`: re-enable processing.
+
 ## Punctuation rules
 
 A comma, semicolon, or period can serve as a closing parenthesis for an operator that takes a variable number of arguments:

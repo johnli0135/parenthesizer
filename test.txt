@@ -25,3 +25,12 @@ define (f x y)
     display x
    display y
   + x y
+
+define (f x y)
+/off
+    (display x)
+    (display y)
+    (+ x y)
+    /on
+
+define x 3.

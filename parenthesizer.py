@@ -91,15 +91,21 @@ def parenthesize(lines):
   scopes = {} # maps indentation levels to operators
   levels = [] # list of indentation levels with keys in scopes
   demands = [] # the number arguments left to satisfy the last operator on the call stack (negative if variadic)
+  disabled = [False] # whether or not to process inputs
+
+  def buffer():
+    return result[-1]
 
   def write(s):
     result[-1] += s
 
+  def append(s):
+    if buffer().strip() != "":
+      result[-1] += " "
+    write(s)
+
   def newline():
     result.append("")
-
-  def buffer():
-    return result[-1]
 
   # create a new demand
   def demand(arity, indent_level):
@@ -150,10 +156,18 @@ def parenthesize(lines):
   def comment(*args):
     pass
 
+  def disable(*args):
+    disabled[0] = True
+
+  def enable(*args):
+    disabled[0] = False
+
   directives = {
     "use": use,
     "def": define,
-    "/": comment
+    "/": comment,
+    "off": disable,
+    "on": enable
   }
 
   last_indent = None
@@ -163,43 +177,47 @@ def parenthesize(lines):
     code = line.lstrip()
     indent = len(line) - len(code)
 
-    if last_indent is not None and indent < last_indent:
-      deindent(last_indent, indent)
-    last_indent = indent
-
     # if directive, handle it and skip this line
     if code.startswith(prefix):
       tokens = code[len(prefix):].split(" ")
       directive = tokens[0]
       arguments = tokens[1:]
-      directives[directive](*arguments)
-      continue
+      if not disabled[0] or directive == "on":
+        directives[directive](*arguments)
+    # if disabled, just write the line verbatim
+    elif disabled[0]:
+      newline()
+      write(line)
+    # a normal line of code
+    else:
+      # close any brackets from indentation changes
+      if last_indent is not None and indent < last_indent:
+        deindent(last_indent, indent)
 
-    newline()
-    write(" " * indent)
-    for token in lex(code, closing_punctuation): # include braces? harder to force spaces in output that way
-      #print(token, bindings)
-      #print(result, demands, scopes)
-      # normal binding
-      if token in bindings:
-        if buffer() != "":
-          write(" ")
-        write("(" + token)
-        demand(bindings[token], indent)
-      # forced variadic binding
-      elif token[-1] == ":" and token[:-1] in bindings:
-        if buffer() != "":
-          write(" ")
-        write("(" + token[:-1])
-        demand(variadic, indent)
-      # close a binding
-      elif token in closing_punctuation:
-        resolve()
-      # normal token
-      else:
-        write(" " + token)
-        appease()
+      # handle the new line
+      newline()
+      write(" " * indent)
+      for token in lex(code, closing_punctuation): # include braces? harder to force spaces in output that way
+        #print(token, bindings)
+        #print(result, demands, scopes)
+        # normal binding
+        if token in bindings:
+          append("(" + token)
+          demand(bindings[token], indent)
+        # forced variadic binding
+        elif token[-1] == ":" and token[:-1] in bindings:
+          append("(" + token[:-1])
+          demand(variadic, indent)
+        # close a binding
+        elif token in closing_punctuation:
+          resolve()
+        # normal token
+        else:
+          append(token)
+          appease()
 
+    # save for next line
+    last_indent = indent
   deindent(indent, 0)
 
   return result, bindings
