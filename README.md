@@ -1,6 +1,6 @@
 # Parenthesizer
 
-A command line utility that uses whitespace and punctuation rules to generate properly parenthesized code of LISP dialects.
+A command line utility that uses whitespace and punctuation rules to generate properly parenthesized code for LISP dialects.
 
 Usage: `python parenthesizer.py <input file>`
 
@@ -8,7 +8,7 @@ Usage: `python parenthesizer.py <input file>`
 
 Knowledge of operator arity is given through directives. A directive is any line where the first non-whitespace character is a slash.
 
-`/use f`: process a file `f` and include the results in the current file.
+`/use f`: process the contents of `f` (pretty much the same as C's `#include`).
 
 `/def f n`: define an operator `f` to take `n` arguments, or to take a variable number of arguments if `n` is not specified.
 
