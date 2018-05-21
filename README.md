@@ -32,7 +32,7 @@ A colon at the end of an operator name forces the operator to take a variable nu
 
 ## Whitespace rule
 
-Going from a higher indentation to lower indentation closes any blocks in between (if they exist).
+Going from higher to lower indentation closes any blocks in between.
 
 End-of-file is treated as a blank line of lowest possible indentation level.
 
