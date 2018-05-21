@@ -18,9 +18,9 @@ Knowledge of operator arity is given through directives. A directive is any line
 
 `/on`: re-enable processing.
 
-## Basic example
+## Simple operators
 
-Since directives tell the parenthesizer the arity of many common operators, many parentheses can be omitted.
+Since directives tell the parenthesizer the arity of common operators, many parentheses can be omitted.
 
 For example:
 ```C
