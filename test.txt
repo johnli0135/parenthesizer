@@ -39,3 +39,9 @@ define (fact n)
     if = n 1
         1
         * n (fact - n 1)
+
+/def fact 1
+define fact n
+    if = n 1
+        1
+        * n fact - n 1

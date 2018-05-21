@@ -26,14 +26,14 @@ For example:
 ```C
 /use racket.txt
 define (fact n)
-    if = n 1
+    if = n 0
         1
         * n (fact - n 1)
 ```
 will generate
 ```racket
 (define (fact n)
-    (if (= n 1)
+    (if (= n 0)
         1
         (* n (fact (- n 1)))))
 ```
@@ -92,4 +92,14 @@ define (f x y)
   // trigger a closing parenthesis for display y
   + x y
 // close the define
+```
+
+If you want, you can use a directive to remove even more parentheses from the `fact n` example:
+```C
+/use racket.txt
+/def fact 1
+define fact n
+    if = n 0
+        1
+        * n fact - n 1
 ```
