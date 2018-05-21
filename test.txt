@@ -34,3 +34,8 @@ define (f x y)
     /on
 
 define x 3.
+
+define (fact n)
+    if = n 1
+        1
+        (fact - n 1)

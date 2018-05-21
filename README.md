@@ -18,7 +18,19 @@ Knowledge of operator arity is given through directives. A directive is any line
 
 `/on`: re-enable processing.
 
-## Punctuation rules
+## Basic example
+
+Since directives tell the parenthesizer the arity of many common operators, many parentheses can be omitted.
+
+For example:
+```C
+define (fact n)
+    if = n 1
+        1
+        (fact - n 1)
+```
+
+## Punctuation
 
 A comma, semicolon, or period can serve as a closing parenthesis for an operator that takes a variable number of arguments:
 
@@ -36,7 +48,7 @@ A colon at the end of an operator name forces the operator to take a variable nu
 +: 1 2 3.
 ```
 
-## Whitespace rule
+## Whitespace
 
 Going from higher to lower indentation closes any blocks in between.
 
