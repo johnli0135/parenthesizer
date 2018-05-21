@@ -1,0 +1,5 @@
+/def define
+/def + 2
+/def - 2
+/def display
+/def let

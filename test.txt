@@ -1,0 +1,27 @@
+/use racket.txt
+define (f x y)
+    display x;
+    display y;
+    + x y.
+
+define (f x y)
+    // new indentation level does nothing
+    +
+        x
+      // does nothinng
+      y
+// new indentation level closes def and +  
+
+define.
+
+let [(a 3)
+     (b 4)
+     (c 5)]
+    +: a b c
+
++ + + + + + + 1 2 3 4 5 6 7 8
+
+define (f x y)
+    display x
+   display y
+  + x y
