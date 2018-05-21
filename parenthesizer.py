@@ -246,6 +246,8 @@ def parenthesize(lines):
 
     # save for next line
     last_indent = indent
+
+  # EOF is a blank line of lowest indent level
   deindent(indent, 0)
 
   return result, bindings
