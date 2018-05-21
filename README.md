@@ -2,6 +2,8 @@
 
 A command line utility that uses whitespace and punctuation rules to generate properly parenthesized code of LISP dialects.
 
+Usage: `python parenthesizer.py <input file>`
+
 ## Directives
 
 Knowledge of operator arity is given through directives. A directive is any line where the first non-whitespace character is a slash.
