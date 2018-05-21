@@ -42,6 +42,16 @@ will generate
         (* n (fact (- n 1)))))
 ```
 
+If you really want, you can use a directive to remove even more parentheses:
+```racket
+/use racket.txt
+/def fact 1
+define fact n
+    if = n 0
+        1
+        * n fact - n 1
+```
+
 ## Punctuation
 
 A comma, semicolon, or period can serve as a closing parenthesis for an operator that takes a variable number of arguments:
@@ -95,14 +105,4 @@ define (f x y)
   // trigger a closing parenthesis for display y
   + x y
 // close the define
-```
-
-If you want, you can use a directive to remove even more parentheses from the `fact n` example:
-```racket
-/use racket.txt
-/def fact 1
-define fact n
-    if = n 0
-        1
-        * n fact - n 1
 ```
