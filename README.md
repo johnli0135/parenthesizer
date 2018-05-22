@@ -90,6 +90,8 @@ End-of-file is treated as a blank line of lowest possible indentation level.
 
 Indentations are preserved after addition of parentheses.
 
+These rules imply that any arguments to a function must be indented more than the function name.
+
 For example,
 ```racket
 /use racket.txt

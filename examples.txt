@@ -1,0 +1,31 @@
+/use racket.txt
+
+/def show 2
+define (show expr expected)
+    display expr
+    display " = "
+    display eval expr
+    display " (expected "
+    display expected
+    displayln ")"
+
+/def factorial 1
+define (factorial n)
+    if (= n 0)
+        1
+        * n (factorial sub1 n)
+
+/def triangular 1
+define (triangular n)
+    foldl ;+ 0 (range 0 n) 
+
+/def fibonacci 1
+define (fibonacci n)
+    cond
+        [(= n 1) 1]
+        [(= n 2) 1]
+        [else    + (fibonacci - n 1) (fibonacci - n 2)]
+
+show (quote triangular 10) 45
+show (quote factorial 6) 720
+show (quote fibonacci 10) 55

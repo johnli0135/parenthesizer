@@ -1600,6 +1600,7 @@
 /def pubment*
 /def putenv 2
 /def quasisyntax/loc
+/def quote 1
 /def quote-syntax
 /def quote-syntax/prune
 /def quotient 2

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+file=$1
+shift
+flags=$@
+
+racket $flags -e "$(python parenthesizer.py $file)"
