@@ -12,9 +12,9 @@ Knowledge of operator arity is given through directives. A directive is any line
 
 `/def f n`: define an operator `f` to take `n` arguments, or to take a variable number of arguments if `n` is not specified.
 
-`/mask f`: treat `f` as a normal identifier rather than an operator.
+`/mask f ...`: treat `f` and any additional arguments as normal identifiers rather than operators.
 
-`/unmask f`: undo `/mask f`.
+`/unmask f ...`: undo `/mask f ...`.
 
 `//`: line comment.
 
@@ -63,18 +63,23 @@ Superfluous parentheses can still be added for clarity:
 
 ## Punctuation
 
-A comma, semicolon, or period can serve as a closing parenthesis for an operator that takes a variable number of arguments:
+A period can serve as a closing parenthesis for an operator that takes a variable number of arguments.
+
 ```racket
 /use racket.txt
 define (f x y) 
-    display list x y x;
-    display list y x y;
+    display list x y x.
+    display list y x y.
     + x y.
 ```
 
 A colon at the end of an operator name forces the operator to take a variable number of arguments:
 ```
+// 6
 +: 1 2 3.
+
+// #t
+>: 5 4 3 2 1.
 ```
 
 ## Whitespace
@@ -114,3 +119,32 @@ define (f x y)
     + x y
 // close the define
 ```
+
+Example of both punctuation and indentation being used together:
+```racket
+define one-to-nine
+    append list 1 2 3. list 4 5 6. list 7 8 9.
+```
+
+## Escaping
+
+To prevent an operator from being automatically parenthesized, prefix it with a semicolon. (Or use `/mask` and `/unmask` if many operators need to be escaped over many lines of code.)
+
+For example, to construct a list of basic arithmetic operators,
+```racket
+list + - * /
+```
+erroneously generates
+```racket
+(list (+ (- (* (/)))))
+```
+but
+
+```racket
+list ;+ ;- ;* ;/
+```
+generates
+```racket
+(list + - * /)
+```
+as desired.

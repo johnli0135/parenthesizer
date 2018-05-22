@@ -80,10 +80,12 @@ def lex(line, symbols):
 
 def parenthesize(lines):
   prefix = "/"
-  closing_punctuation = ",;."
+  closing_punctuation = "."
   opening_braces = "[{("
   closing_braces = ")}]"
   braces = opening_braces + closing_braces
+  force_variadic = ":"
+  escape = ";"
 
   # codes for demands[]
   variadic = -1
@@ -170,12 +172,14 @@ def parenthesize(lines):
   def define(name, arity=variadic):
     bindings[name] = int(arity)
 
-  def mask(name):
-    masked[name] = True
+  def mask(*names):
+    for name in names:
+      masked[name] = True
 
-  def unmask(name):
-    if name in masked:
-      del masked[name]
+  def unmask(*names):
+    for name in names:
+      if name in masked:
+        del masked[name]
 
   def comment(*args):
     pass
@@ -232,7 +236,7 @@ def parenthesize(lines):
             append("(" + token)
             demand(bindings[token], indent)
         # forced variadic binding
-        elif token[-1] == ":" and token[:-1] in bindings and token[:-1] not in masked:
+        elif token[-1] == force_variadic and token[:-1] in bindings and token[:-1] not in masked:
           if len(buffer()) > 0 and buffer()[-1] in opening_braces: # there is a superfluous paren
             append(token[:-1]) # dont' demand anything and let the paren handle it
           else:
@@ -246,6 +250,9 @@ def parenthesize(lines):
         elif token in opening_braces:
           append(token)
           demand(unresolvable, indent)
+        elif token[0] == escape:
+          append(token[1:])
+          appease()
         else: # normal token
           append(token)
           appease()

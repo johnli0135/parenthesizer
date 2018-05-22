@@ -73,3 +73,23 @@ if a if b if c if d if e if f
     h
 
 banner
+
++: 1 2 3.
+
+>: 5 4 3 2 1.
+
+define one-to-nine
+  append list 1 2 3, list 4 5 6, list 7 8 9.
+
+/mask + - * /
+list + - * /
+/unmask + - * /
+
+list ;+ ;- ;* ;/
+
+list + - * /
+
+display "hello, world"
+
+define (sum l)
+    foldl ;+ 0 l
