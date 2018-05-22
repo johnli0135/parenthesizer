@@ -224,8 +224,7 @@ def parenthesize(lines):
       newline()
       write(" " * indent)
       for token in lex(code, closing_punctuation + braces):
-        #print(token, bindings)
-        #print(result, demands, scopes)
+        #print(token, result, demands, scopes)
         if token in bindings and token not in masked:
           if len(buffer()) > 0 and buffer()[-1] in opening_braces: # there is a superfluous paren
             append(token) # dont' demand anything and let the paren handle it

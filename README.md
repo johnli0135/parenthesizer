@@ -67,8 +67,8 @@ A comma, semicolon, or period can serve as a closing parenthesis for an operator
 ```racket
 /use racket.txt
 define (f x y) 
-    display x;
-    display y;
+    display list x y x;
+    display list y x y;
     + x y.
 ```
 
@@ -107,10 +107,10 @@ Variant of the first punctuation example, using whitespace instead:
 ```racket
 /use racket.txt
 define (f x y)
-    display x
-    // close display x
-    display y
-    // close display y
+    display list x y x
+    // close list
+    display list y x y
+    // close list
     + x y
 // close the define
 ```
