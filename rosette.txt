@@ -1,0 +1,11 @@
+/def define-symbolic
+/def define-symbolic*
+/def assert 1
+/def solve 1
+/def solve+ 0
+/def verify 1
+/def synthesize
+/def optimize
+/def define/debug
+/def debug
+/def current-bitwidth
