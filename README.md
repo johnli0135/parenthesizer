@@ -118,6 +118,8 @@ Example of both punctuation and indentation being used together:
 define one-to-nine
     append list 1 2 3. list 4 5 6. list 7 8 9.
 ```
+Technically, the last `.` is unnecessary, as the new indentation level will close both the `list` and the `append`
+expressions.
 
 ## Escaping
 
