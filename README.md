@@ -167,6 +167,7 @@ define (mergesort x)
                                 [(empty? b)            a]
                                 [(<= first a first b)  cons first a (merge rest a b)]
                                 [else                  cons first b (merge a      rest b)]])
+;            this has to match [merge, so the lambda and cond have to be closed before it ^
             (merge (mergesort left) (mergesort right))
 ```
 generates
