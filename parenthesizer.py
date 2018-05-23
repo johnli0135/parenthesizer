@@ -174,6 +174,11 @@ def parenthesize(lines):
   def define(name, arity=variadic):
     bindings[name] = int(arity)
 
+  def delete(*names):
+    for name in names:
+      if name in bindings:
+        del bindings[name]
+
   def mask(*names):
     for name in names:
       masked[name] = True
@@ -196,6 +201,7 @@ def parenthesize(lines):
   directives = {
     "use": use,
     "def": define,
+    "del": delete,
     "mask": mask,
     "unmask": unmask,
     "/": comment,

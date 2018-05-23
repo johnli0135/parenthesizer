@@ -12,6 +12,8 @@ Knowledge of operator arity is given through directives. A directive is any line
 
 `/def f n`: define an operator `f` to take `n` arguments, or to take a variable number of arguments if `n` is not specified.
 
+`/del f ...`: delete `f` and any additional arguments from the list of known operators.
+
 `/mask f ...`: treat `f` and any additional arguments as normal identifiers rather than operators.
 
 `/unmask f ...`: undo `/mask f ...`.

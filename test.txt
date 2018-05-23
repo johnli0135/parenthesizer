@@ -95,3 +95,11 @@ define (sum l)
     foldl ;+ 0 l
 
 >: 5 4 3 2 1
+
+/def test 1
+
+test a b
+
+/del test
+
+test a b
