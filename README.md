@@ -169,6 +169,22 @@ define (mergesort x)
                                 [else                  cons first b (merge a      rest b)]])
             (merge (mergesort left) (mergesort right))
 ```
+generates
+```racket
+(define (mergesort x)
+    (if (or (empty? x) (empty? (rest x)))
+        x
+        (letrec ([half (floor (/ (length x) 2))]
+                [left (take x half)]
+                [right (drop x half)]
+                [merge (lambda (a b)
+                            (cond
+                                [(empty? a) b]
+                                [(empty? b) a]
+                                [(<= (first a) (first b)) (cons (first a) (merge (rest a) b))]
+                                [else (cons (first b) (merge a (rest b)))]))])
+            (merge (mergesort left) (mergesort right)))))
+```
 
 Superfluous parentheses can also be added for clarity:
 ```racket
