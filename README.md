@@ -130,7 +130,7 @@ define one-to-nine
 
 ## Escaping
 
-To prevent an operator from being automatically parenthesized, prefix it with a semicolon. (Or use `/mask` and `/unmask` if many operators need to be escaped over many lines of code.)
+To prevent an operator from being automatically parenthesized, prefix it with an underscore. (Or use `/mask` and `/unmask` if many operators need to be escaped over many lines of code.)
 
 For example, to construct a list of basic arithmetic operators,
 ```racket
@@ -143,7 +143,7 @@ erroneously generates
 but
 
 ```racket
-list ;+ ;- ;* ;/
+list _+ _- _* _/
 ```
 generates
 ```racket

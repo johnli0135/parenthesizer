@@ -17,15 +17,26 @@ define (factorial n)
 
 /def triangular 1
 define (triangular n)
-    foldl ;+ 0 (range 0 n) 
+    foldl _+ 0 (range 0 n) 
 
 /def fibonacci 1
 define (fibonacci n)
     cond
-        [(= n 1) 1]
-        [(= n 2) 1]
-        [else    + (fibonacci - n 1) (fibonacci - n 2)]
+        [(= n 1)  1]
+        [(= n 2)  1]
+        [else     + (fibonacci - n 1) (fibonacci - n 2)]
+
+/def quicksort 1
+define (quicksort x)
+    if empty? x
+        x
+        letrec ([pivot  first x]
+                [tail   rest x]
+                [lower  filter lambda (y) <= y pivot. tail]
+                [upper  filter lambda (y) >  y pivot. tail])
+            append (quicksort lower) (list pivot) (quicksort upper)
 
 show (quote triangular 10) 45
 show (quote factorial 6) 720
 show (quote fibonacci 10) 55
+show (quote quicksort shuffle range 0 10) (range 0 10)

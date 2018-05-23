@@ -1617,7 +1617,7 @@
 /def raise-syntax-error 2
 /def raise-type-error 3
 /def raise-user-error
-/def range
+/def range 2
 /def random
 /def random-seed 1
 /def rational? 1
@@ -1724,6 +1724,7 @@
 /def rename-transformer? 1
 /def replace-evt 2
 /def reroot-path 2
+/def rest 1
 /def resolve-path 1
 /def resolved-module-path-name 1
 /def resolved-module-path? 1
