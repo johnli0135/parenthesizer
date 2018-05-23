@@ -125,7 +125,7 @@ def parenthesize(lines):
 
   # the top demand is resolvable
   def resolvable():
-    return demands[-1] != unresolvable
+    return len(demands) > 0 and demands[-1] != unresolvable
 
   # close even an unresolvable demand
   def force_resolve():
@@ -149,9 +149,7 @@ def parenthesize(lines):
 
   # appease a demand
   def appease():
-    if len(demands) == 0:
-      return
-    if demands[-1] == variadic or not resolvable():
+    if not resolvable() or demands[-1] == variadic:
       return
 
     demands[-1] -= 1
@@ -160,6 +158,10 @@ def parenthesize(lines):
 
   def deindent(old, new):
     while len(levels) > 0 and resolvable() and levels[-1] >= new:
+      resolve()
+
+  def super_resolve():
+    while resolvable():
       resolve()
 
   # directives
@@ -245,6 +247,7 @@ def parenthesize(lines):
         elif token in closing_punctuation:
           resolve()
         elif token in closing_braces:
+          super_resolve()
           write(token)
           force_resolve()
         elif token in opening_braces:

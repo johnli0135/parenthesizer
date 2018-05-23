@@ -52,15 +52,6 @@ If you really want, you can use a directive to remove even more parentheses:
         * n fact - n 1)
 ```
 
-Superfluous parentheses can still be added for clarity:
-```racket
-/use racket.txt
-(define (fact n)
-    if (= n 0)
-        1
-        * n (fact - n 1))
-```
-
 ## Punctuation
 
 A period can serve as a closing parenthesis for an operator that takes a variable number of arguments.
@@ -150,3 +141,37 @@ generates
 (list + - * /)
 ```
 as desired.
+
+## Parentheses
+
+An explicit closing parenthesis (or square bracket or curly brace) closes any "invisible open parentheses"
+inferred through knowledge of operator arity.
+
+For example, in the following implementation of merge sort, the invisible open parentheses implied by `lambda` and
+`cond` are closed by the `]` that corresponds to `[merge`:
+```racket
+define (mergesort x)
+    if or (empty? x) (empty? rest x)
+        x
+        letrec ([half   floor / (length x) 2]
+                [left   take x half]
+                [right  drop x half]
+                [merge  lambda (a b)
+                            cond
+                                [(empty? a)            b]
+                                [(empty? b)            a]
+                                [(<= first a first b)  cons first a (merge rest a b)]
+                                [else                  cons first b (merge a      rest b)]])
+            (merge (mergesort left) (mergesort right))
+```
+
+Superfluous parentheses can also be added for clarity:
+```racket
+/use racket.txt
+define (fact n)
+   // = doesn't need to be parenthesized
+   if (= n 0)
+       1
+       * n (fact - n 1)
+```
+
