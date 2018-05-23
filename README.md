@@ -30,18 +30,18 @@ Since directives tell the parenthesizer the arity of common operators, many pare
 
 For example,
 ```racket
+(define (fact n)
+    (if (= n 0)
+        1
+        (* n (fact (- n 1)))))
+```
+can be written (without even using any punctuation or whitespace rules) as
+```racket
 /use racket.txt
 (define (fact n)
     if = n 0
         1
         * n (fact - n 1))
-```
-will generate
-```racket
-(define (fact n)
-    (if (= n 0)
-        1
-        (* n (fact (- n 1)))))
 ```
 
 If you really want, you can use a directive to remove even more parentheses:
@@ -56,7 +56,7 @@ If you really want, you can use a directive to remove even more parentheses:
 
 ## Punctuation
 
-A period can serve as a closing parenthesis for an operator that takes a variable number of arguments.
+A period serves as a closing parenthesis for an operator that takes a variable number of arguments.
 
 ```racket
 /use racket.txt
@@ -82,8 +82,6 @@ Going from higher to lower-or-same indentation closes any blocks in between.
 End-of-file is treated as a blank line of lowest possible indentation level.
 
 Indentations are preserved after addition of parentheses.
-
-These rules imply that any arguments to a function must be indented more than the function name.
 
 For example,
 ```racket
