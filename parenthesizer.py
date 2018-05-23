@@ -184,7 +184,8 @@ def parenthesize(lines):
         del masked[name]
 
   def comment(*args):
-    pass
+    newline()
+    write("; " + " ".join(args))
 
   def disable(*args):
     disabled[0] = True

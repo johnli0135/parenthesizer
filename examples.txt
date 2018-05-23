@@ -1,5 +1,6 @@
 /use racket.txt
 
+// display an expression along with true and expected values
 /def show 2
 define (show expr expected)
     display expr
@@ -51,6 +52,7 @@ define (mergesort x)
                                 [else                  cons first b (merge a      rest b)]])
             (merge (mergesort left) (mergesort right))
 
+// test the functions
 show (quote triangular 10) 45
 show (quote factorial 6) 720
 show (quote fibonacci 10) 55
