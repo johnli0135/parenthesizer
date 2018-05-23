@@ -149,6 +149,9 @@ as desired.
 An explicit closing parenthesis (or square bracket or curly brace) closes any "invisible open parentheses"
 opened by operators.
 
+This takes advantage of the fact that visible parentheses have to be balanced in order to deduce where closing
+parentheses should be added for operators that take a variable number of arguments.
+
 For example, in the following implementation of merge sort, the "invisible parentheses" opened by `lambda` and
 `cond` are closed by the `]` that corresponds to `[merge`:
 ```racket
@@ -166,8 +169,6 @@ define (mergesort x)
                                 [else                  cons first b (merge a      rest b)]])
             (merge (mergesort left) (mergesort right))
 ```
-This takes advantage of the fact that visible parentheses have to be balanced in order to deduce where closing
-parentheses should be added for operators that take a variable number of arguments.
 
 Superfluous parentheses can also be added for clarity:
 ```racket
