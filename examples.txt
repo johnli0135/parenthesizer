@@ -46,31 +46,31 @@ define (mergesort_pipeless x)
 define (mergesort x)
     if or (empty? x) (empty? rest x)
         x
-        letrec (| half   floor / (length x) 2
-                | left   take x half
-                | right  drop x half
-                | merge  lambda (a b)
-                            cond
-                                | (empty? a)            b
-                                | (empty? b)            a
-                                | (<= first a first b)  cons first a (merge rest a b)
-                                | else                  cons first b (merge a      rest b))
+        letrec : | half   floor / (length x) 2
+                 | left   take x half
+                 | right  drop x half
+                 | merge  lambda (a b)
+                             cond
+                                 | (empty? a)            b
+                                 | (empty? b)            a
+                                 | (<= first a first b)  cons first a (merge rest a b)
+                                 | else                  cons first b (merge a      rest b)
             (merge (mergesort left) (mergesort right))
 
 /def quicksort 1
 define (quicksort x)
-    cond
-        | empty? x  x
-        | else      letrec (| pivot  first x
-                            | tail   rest x
-                            | lower  filter lambda (y) <= y pivot. tail
-                            | upper  filter lambda (y) >  y pivot. tail)
-                        append (quicksort lower) (list pivot) (quicksort upper)
+    if empty? x
+        x
+        letrec : | pivot  first x
+                 | tail   rest x
+                 | lower  filter lambda (y) <= y pivot. tail
+                 | upper  filter lambda (y) >  y pivot. tail
+            append (quicksort lower) (list pivot) (quicksort upper)
 
 // test the functions
 show (quote triangular 10) 45
 show (quote factorial 6) 720
 show (quote fibonacci 10) 55
 show (quote mergesort_pipeless shuffle range 0 10) (range 0 10)
-show (quote mergesort_pipeless shuffle range 0 10) (range 0 10)
+show (quote mergesort shuffle range 0 10) (range 0 10)
 show (quote quicksort shuffle range 0 10) (range 0 10)

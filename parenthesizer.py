@@ -87,6 +87,7 @@ def parenthesize(lines):
   braces = opening_braces + closing_braces
   force_variadic = ":"
   pseudo_bracket = "|"
+  pseudo_paren = ":"
   escape = "_"
 
   # codes for demands[]
@@ -278,6 +279,9 @@ def parenthesize(lines):
         elif token in pseudo_bracket:
           append("[")
           demand(variadic, new_indent, "]")
+        elif token in pseudo_paren:
+          append("(")
+          demand(variadic, new_indent, ")")
         elif token[0] == escape:
           append(token[1:])
           appease()

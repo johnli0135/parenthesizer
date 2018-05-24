@@ -214,14 +214,18 @@ define (merge a b)
         | else                  cons first b (merge a      rest b)
 ```
 
+## Colon parentheses
+
+Like pipe characters, a single colon character can be used in place of parentheses.
+
 e.g. in `letrec` block of this quicksort implementation:
 ```racket
 define (quicksort x)
     if empty? x
         x
-        letrec (| pivot  first x
-                | tail   rest x
-                | lower  filter lambda (y) <= y pivot. tail
-                | upper  filter lambda (y) > y pivot. tail)
+        letrec : | pivot  first x
+                 | tail   rest x
+                 | lower  filter lambda (y) <= y pivot. tail
+                 | upper  filter lambda (y) > y pivot. tail
             append (quicksort lower) (list pivot) (quicksort upper)
 ```
