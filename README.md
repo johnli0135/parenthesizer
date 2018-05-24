@@ -198,3 +198,30 @@ define (fact n)
        * n (fact - n 1)
 ```
 
+## Pipe brackets
+
+A single pipe character can be used in place of square brackets. It generates an opening square bracket
+that is automatically closed by the above rules on indentation and explicit use of parentheses. These can be
+used to simplify the appearance of expressions that involve collections of subexpressions (e.g. `let` or `cond` forms).
+
+e.g. in `merge` of `mergesort`:
+```racket
+define (merge a b)
+    cond
+        | (empty? a)            b
+        | (empty? b)            a
+        | (<= first a first b)  cons first a (merge rest a b)
+        | else                  cons first b (merge a      rest b)
+```
+
+e.g. in `letrec` block of this quicksort implementation:
+```racket
+define (quicksort x)
+    if empty? x
+        x
+        letrec (| pivot  first x
+                | tail   rest x
+                | lower  filter lambda (y) <= y pivot. tail
+                | upper  filter lambda (y) > y pivot. tail)
+            append (quicksort lower) (list pivot) (quicksort upper)
+```

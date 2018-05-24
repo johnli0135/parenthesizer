@@ -22,8 +22,8 @@ let [(a 3)
 + + + + + + + 1 2 3 4 5 6 7 8
 
 define (f x y)
-    display list x y x;
-    display list y x y;
+    display list x y x.
+    display list y x y.
     + x y
 
 define (f x y)
@@ -56,11 +56,11 @@ fact 4
 
 fact 3
 
-define (file->string file)
+define (file->string f)
    foldl
        lambda (x y) string-append x "\n" y
        ""
-       file->lines file
+       file->lines f
 
 define (swap stack)
     let ([tail rest rest stack]
@@ -79,20 +79,20 @@ banner
 >: 5 4 3 2 1.
 
 define one-to-nine
-  append list 1 2 3, list 4 5 6, list 7 8 9.
+  append list 1 2 3. list 4 5 6. list 7 8 9.
 
 /mask + - * /
 list + - * /
 /unmask + - * /
 
-list ;+ ;- ;* ;/
+list _+ _- _* _/
 
 list + - * /
 
 display "hello, world"
 
 define (sum l)
-    foldl ;+ 0 l
+    foldl _+ 0 l
 
 >: 5 4 3 2 1
 
@@ -103,3 +103,14 @@ test a b
 /del test
 
 test a b
+
+cond
+  | (= 1 2)  display "test"
+  | (= 1 1)  display "test2"
+  | else     display "else"
+
+let (| a 1
+     | b 2
+     | c 3)
+  +: a b c
+

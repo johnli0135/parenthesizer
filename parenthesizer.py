@@ -70,12 +70,13 @@ def lex(line, symbols):
     ESCAPE: lex_escape,
     SYMBOL: lex_symbol
   }
-  for c in line + "\n":
+  for i, c in enumerate(line + "\n"):
     state, gottoken = dfa[state](c)
     if gottoken:
-      yield "".join(token)
+      t = "".join(token)
+      yield t, i - len(t)
     if state == SYMBOL:
-      yield symbol[0]
+      yield symbol[0], i - 1
       state = DEFAULT
 
 def parenthesize(lines):
@@ -85,6 +86,7 @@ def parenthesize(lines):
   closing_braces = ")}]"
   braces = opening_braces + closing_braces
   force_variadic = ":"
+  pseudo_bracket = "|"
   escape = "_"
 
   # codes for demands[]
@@ -98,6 +100,7 @@ def parenthesize(lines):
   scopes = {} # maps indentation levels to operators
   levels = [] # list of indentation levels with keys in scopes
   demands = [] # the number arguments left to satisfy the last operator on the call stack
+  demand_braces = [] # brace type needed to close resolvable demands
   disabled = [False] # whether or not to process inputs
 
   def buffer():
@@ -115,8 +118,10 @@ def parenthesize(lines):
     result.append("")
 
   # create a new demand
-  def demand(value, indent_level):
+  def demand(value, indent_level, closing_brace = ")"):
     demands.append(value)
+    if value != unresolvable:
+      demand_braces.append(closing_brace)
     if indent_level in scopes:
       scopes[indent_level] += 1
     else:
@@ -144,7 +149,7 @@ def parenthesize(lines):
   def resolve():
     if not resolvable():
       return
-    write(")")
+    write(demand_braces.pop())
     force_resolve()
 
   # appease a demand
@@ -170,6 +175,14 @@ def parenthesize(lines):
     result.extend(r)
     for binding in b:
       bindings[binding] = b[binding]
+
+  def define(name, arity=variadic):
+    bindings[name] = int(arity)
+
+  def delete(*names):
+    for name in names:
+      if name in bindings:
+        del bindings[name]
 
   def define(name, arity=variadic):
     bindings[name] = int(arity)
@@ -210,6 +223,7 @@ def parenthesize(lines):
   }
 
   last_indent = None
+  new_indent = 0
   for l in lines:
     # extract indentation level and code
     line = l.rstrip()
@@ -236,21 +250,22 @@ def parenthesize(lines):
       # handle the new line
       newline()
       write(" " * indent)
-      for token in lex(code, closing_punctuation + braces):
-        #print(token, result, demands, scopes)
+      for token, pos in lex(code, closing_punctuation + braces):
+        #print(token, result, demands, scopes, demand_braces)
+        new_indent = indent + pos
         if token in bindings and token not in masked:
           if len(buffer()) > 0 and buffer()[-1] in opening_braces: # there is a superfluous paren
             append(token) # dont' demand anything and let the paren handle it
           else:
             append("(" + token)
-            demand(bindings[token], indent)
+            demand(bindings[token], new_indent)
         # forced variadic binding
         elif token[-1] == force_variadic and token[:-1] in bindings and token[:-1] not in masked:
           if len(buffer()) > 0 and buffer()[-1] in opening_braces: # there is a superfluous paren
             append(token[:-1]) # dont' demand anything and let the paren handle it
           else:
             append("(" + token[:-1])
-            demand(variadic, indent)
+            demand(variadic, new_indent)
         elif token in closing_punctuation:
           resolve()
         elif token in closing_braces:
@@ -259,7 +274,10 @@ def parenthesize(lines):
           force_resolve()
         elif token in opening_braces:
           append(token)
-          demand(unresolvable, indent)
+          demand(unresolvable, new_indent)
+        elif token in pseudo_bracket:
+          append("[")
+          demand(variadic, new_indent, "]")
         elif token[0] == escape:
           append(token[1:])
           appease()
@@ -268,7 +286,7 @@ def parenthesize(lines):
           appease()
 
     # save for next line
-    last_indent = indent
+    last_indent = new_indent
 
   # EOF is a blank line of lowest indent level
   deindent(indent, 0)
