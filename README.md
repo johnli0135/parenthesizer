@@ -1,8 +1,8 @@
 # Parenthesizer
 
-A command line utility that uses whitespace and punctuation rules to generate properly parenthesized code for LISP dialects.
+A command line utility that uses whitespace/punctuation rules and 2 special characters (`|` and `:`) to generate properly parenthesized code for LISP dialects from a cleaner syntax that's faster to write in.
 
-Usage: `python parenthesizer.py <input file>`
+Usage: `python parenthesizer.py <input file>` outputs properly parenthesized code
 
 ## Directives
 
@@ -24,7 +24,7 @@ Knowledge of operator arity is given through directives. A directive is any line
 
 `/on`: re-enable parenthesizing.
 
-## Simple operators
+## Basic transformations
 
 Since directives tell the parenthesizer the arity of common operators, many parentheses can be omitted.
 
@@ -35,7 +35,7 @@ For example,
         1
         (* n (fact (- n 1)))))
 ```
-can be written (without even using any punctuation or whitespace rules) as
+can be written as
 ```racket
 /use racket.txt
 (define (fact n)
@@ -60,18 +60,16 @@ A period serves as a closing parenthesis for an operator that takes a variable n
 
 ```racket
 /use racket.txt
-define (f x y) 
-    display list x y x.
-    display list y x y.
-    + x y.
+define one-to-nine
+    append list 1 2 3. list 4 5 6. list 7 8 9..
 ```
 
 A colon at the end of an operator name forces the operator to take a variable number of arguments:
 ```
-// 6
+// becomes (+ 1 2 3) => 6
 +: 1 2 3.
 
-// #t
+// becomes (> 5 4 3 2 1) => #t
 >: 5 4 3 2 1.
 ```
 
@@ -101,25 +99,11 @@ will generate
       y))
 ```
 
-Variant of the first punctuation example, using whitespace instead:
-```racket
-/use racket.txt
-define (f x y)
-    display list x y x
-    // close list
-    display list y x y
-    // close list
-    + x y
-// close the define
-```
-
-Example of both punctuation and indentation being used together:
+Using whitespace to rewrite the punctuation example from earlier:
 ```racket
 define one-to-nine
-    append list 1 2 3. list 4 5 6. list 7 8 9.
+    append list 1 2 3. list 4 5 6. list 7 8 9
 ```
-(Technically, the last `.` is unnecessary, as the new indentation level will close both the `list` and the `append`
-expressions.)
 
 ## Escaping
 
