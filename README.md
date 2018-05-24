@@ -198,7 +198,7 @@ define (fact n)
        * n (fact - n 1)
 ```
 
-## Pipe brackets
+## Pipes and colons
 
 A single pipe character can be used in place of square brackets. It generates an opening square bracket
 that is automatically closed by the above rules on indentation and explicit use of parentheses. These can be
@@ -214,9 +214,7 @@ define (merge a b)
         | else                  cons first b (merge a      rest b)
 ```
 
-## Colon parentheses
-
-Like pipe characters, a single colon character can be used in place of parentheses.
+Like pipe characters, a single colon can be used in place of parentheses.
 
 e.g. in `letrec` block of this quicksort implementation:
 ```racket
@@ -229,3 +227,4 @@ define (quicksort x)
                  | upper  filter lambda (y) > y pivot. tail
             append (quicksort lower) (list pivot) (quicksort upper)
 ```
+
