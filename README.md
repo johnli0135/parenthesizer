@@ -5,9 +5,9 @@ With the help of directives that give information about operator arity,
 whitespace/punctuation rules, and a few special characters (`_`, `|`, and `:`),
 arbitrarily many parentheses can be omitted.
 
-This syntactic sugar allows the left- and right-most boundaries of most subexpressions
-to be delimited only once at the left boundary (rather than at both ends with opening and
-closing parentheses).
+The syntactic sugar implemented here allows the left- and right-most boundaries of most
+subexpressions to be delimited only once at the left boundary (rather than at
+both ends with opening and closing parentheses).
 This means that adding or removing extra nesting of expressions involves editing around
 half as many regions of code and does not require manually mantaining balanced parentheses,
 making it easier to write/edit programs quickly without worrying about syntax errors.
