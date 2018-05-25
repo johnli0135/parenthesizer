@@ -8,11 +8,11 @@ define (f x y)
     // new indentation level does nothing
     +
         x
-      // does nothinng
+      // does nothing
       y
 // new indentation level closes def and +  
 
-define.
+// define. (won't work)
 
 let [(a 3)
      (b 4)
@@ -68,10 +68,6 @@ define (swap stack)
          [mid first rest stack])
         cons mid (cons top tail)
 
-if a if b if c if d if e if f
-    g
-    h
-
 banner
 
 +: 1 2 3.
@@ -87,7 +83,7 @@ list + - * /
 
 list _+ _- _* _/
 
-list + - * /
+// list + - * /
 
 display "hello, world"
 
@@ -96,13 +92,13 @@ define (sum l)
 
 >: 5 4 3 2 1
 
-/def test 1
-
-test a b
-
-/del test
-
-test a b
+// /def test 1
+// 
+// test a b
+// 
+// /del test
+// 
+// test a b
 
 cond
   | (= 1 2)  display "test"

@@ -87,7 +87,6 @@ def parenthesize(lines):
   braces = opening_braces + closing_braces
   force_variadic = ":"
   pseudo_bracket = "|"
-  pseudo_paren = ":"
   escape = "_"
 
   # codes for demands[]
@@ -253,11 +252,12 @@ def parenthesize(lines):
       for token, pos in lex(code, closing_punctuation + braces):
         #print(token, result, demands, scopes, demand_braces)
         new_indent = indent + pos
+
+        if token[0] == escape:
+          append(token[1:])
+          appease()
         # forced variadic binding
-        if token[-1] == force_variadic:
-          #if len(buffer()) > 0 and buffer()[-1] in opening_braces: # there is a superfluous paren
-          #  append(token[:-1]) # dont' demand anything and let the paren handle it
-          #else:
+        elif token[-1] == force_variadic:
           append("(" + token[:-1])
           demand(variadic, new_indent)
         elif token in bindings and token not in masked:
@@ -278,12 +278,6 @@ def parenthesize(lines):
         elif token in pseudo_bracket:
           append("[")
           demand(variadic, new_indent, "]")
-        elif token in pseudo_paren:
-          append("(")
-          demand(variadic, new_indent, ")")
-        elif token[0] == escape:
-          append(token[1:])
-          appease()
         else: # normal token
           append(token)
           appease()

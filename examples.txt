@@ -59,13 +59,11 @@ define (mergesort x)
 
 /def quicksort 1
 define (quicksort x)
-    cond
-        | (empty? x)  x
-        | else        letrec : | pivot  first x
-                               | tail   rest x
-                               | lower  filter lambda (y) <= y pivot. tail
-                               | upper  filter lambda (y) > y pivot. tail
-                          append (quicksort lower) (list pivot) (quicksort upper)
+    match x
+        | (list)           (list)
+        | (list-rest p y)  letrec : | l  filter lambda (a) <= a p. y
+                                    | r  filter lambda (a) >  a p. y
+                               append (quicksort l) (list p) (quicksort r)
 
 // test the functions
 show (quote triangular 10) 45

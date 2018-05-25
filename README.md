@@ -114,6 +114,10 @@ A colon at the end of an operator name forces the operator to take a variable nu
 >: 5 4 3 2 1.
 ```
 
+A single colon forces the "operator ``" to take a variable number of arguments. This is essentially
+equivalent to an open parenthesis that can be automatically closed by the whitespace and deduction
+rules described below.
+
 ## Whitespace
 
 Going from higher to lower-or-same indentation closes any blocks in between.
@@ -146,30 +150,7 @@ define one-to-nine
     append list 1 2 3. list 4 5 6. list 7 8 9
 ```
 
-## Escaping
-
-To prevent an operator from being automatically parenthesized, prefix it with an underscore. (Or use `/mask` and `/unmask` if many operators need to be escaped over many lines of code.)
-
-For example, to construct a list of basic arithmetic operators,
-```racket
-list + - * /
-```
-erroneously generates
-```racket
-(list (+ (- (* (/)))))
-```
-but
-
-```racket
-list _+ _- _* _/
-```
-generates
-```racket
-(list + - * /)
-```
-as desired.
-
-## Parentheses
+## Automatically deducing closing parentheses for variadic operators
 
 An explicit closing parenthesis (or square bracket or curly brace) closes any "invisible open parentheses"
 opened by operators.
@@ -225,21 +206,45 @@ define (fact n)
 
 ## Pipes and colons
 
-A single pipe character can be used in place of square brackets. It generates an opening square bracket
-that is automatically closed by the above rules on indentation and explicit use of parentheses. These can be
-used to simplify the appearance of expressions that involve collections of subexpressions (e.g. `let` or `cond` forms).
+A single pipe character can be used in place of square brackets, like a colon that only works on the empty
+operator `` and generates square brackets instead of parentheses.
+These can be used to simplify the appearance of expressions that involve collections of subexpressions
+(e.g. `let`, `cond`, and `match` expressions).
 
-Colons can be used like pipe characters, but they generate opening parentheses instead of opening square brackets.
-
-Here's an example of both being used in an implementation of quicksort:
+Here's an example of pipes being used in an implementation of quicksort:
 ```racket
+/use racket.txt
+/def quicksort 1
 define (quicksort x)
-    cond
-        | (empty? x)  x
-        | else        letrec : | pivot  first x
-                               | tail   rest x
-                               | lower  filter lambda (y) <= y pivot. tail
-                               | upper  filter lambda (y) > y pivot. tail
-                          append (quicksort lower) (list pivot) (quicksort upper)
+    match x
+        | (list)           (list)
+        | (list-rest p y)  letrec : | l  filter lambda (a) <= a p. y
+                                    | r  filter lambda (a) >  a p. y
+                               append (quicksort l) (list p) (quicksort r)
 ```
 
+## Escaping
+
+A downside of automatically parenthesizing operators based on their assumed arity is that it's difficult to
+treat operators like first-class objects.
+
+For example, to construct a list of basic arithmetic operators,
+```racket
+list + - * /
+```
+erroneously generates
+```racket
+(list (+ (- (* (/)))))
+```
+
+To prevent an operator from being automatically parenthesized, prefix it with an underscore. (Or use `/mask` and `/unmask` if many operators need to be escaped over many lines of code.)
+
+So
+```racket
+list _+ _- _* _/
+```
+will generate
+```racket
+(list + - * /)
+```
+as desired.
