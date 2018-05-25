@@ -1,6 +1,6 @@
 # Parenthesizer
 
-A command line utility that generates properly parenthesized code for LISP dialects.
+A command line utility that generates properly parenthesized code for Lisp dialects.
 With the help of directives that give information about operator arity,
 whitespace/punctuation rules, and a few special characters (`_`, `|`, and `:`),
 arbitrarily many parentheses can be omitted.
@@ -266,3 +266,7 @@ define: (mergesort x)
                                   | else                      cons: (first b) (merge a      rest b)
             (merge (mergesort left) (mergesort right))
 ```
+This approach just uses colons for parentheses that span multiple lines and allow whitespace and the positions of
+visible parentheses to determine when they should be closed. The nice thing about it is that it requires no
+knowledge of the particular Lisp dialect that the code is being written for and just relies on simple
+transformations.
