@@ -85,8 +85,7 @@ can be written as
         1
         * n (fact - n 1))
 ```
-
-If you really want, you can use a directive to remove even more parentheses:
+or even
 ```racket
 /use racket.txt
 /def fact 1
