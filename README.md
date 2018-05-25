@@ -234,12 +234,12 @@ Colons can be used like pipe characters, but they generate opening parentheses i
 Here's an example of both being used in an implementation of quicksort:
 ```racket
 define (quicksort x)
-    if empty? x
-        x
-        letrec : | pivot  first x
-                 | tail   rest x
-                 | lower  filter lambda (y) <= y pivot. tail
-                 | upper  filter lambda (y) > y pivot. tail
-            append (quicksort lower) (list pivot) (quicksort upper)
+    cond
+        | (empty? x)  x
+        | else        letrec : | pivot  first x
+                               | tail   rest x
+                               | lower  filter lambda (y) <= y pivot. tail
+                               | upper  filter lambda (y) > y pivot. tail
+                          append (quicksort lower) (list pivot) (quicksort upper)
 ```
 
