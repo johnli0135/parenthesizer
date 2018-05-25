@@ -125,7 +125,7 @@ A colon at the end of an operator name forces the operator to take a variable nu
 ```
 
 A single colon forces the "operator ` `" to take a variable number of arguments. This is essentially
-equivalent to an open parenthesis that can be automatically closed by the whitespace and deduction
+equivalent to an open parenthesis that can be automatically closed by periods and by the whitespace and deduction
 rules described below.
 
 ## Whitespace
