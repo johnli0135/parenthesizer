@@ -229,7 +229,7 @@ A single pipe character can be used in place of square brackets. It generates an
 that is automatically closed by the above rules on indentation and explicit use of parentheses. These can be
 used to simplify the appearance of expressions that involve collections of subexpressions (e.g. `let` or `cond` forms).
 
-Colons can be used like pipe characters, but they generate opening parentheses instead of square brackets.
+Colons can be used like pipe characters, but they generate opening parentheses instead of opening square brackets.
 
 Here's an example of both being used in an implementation of quicksort:
 ```racket
