@@ -256,6 +256,10 @@ will generate
 as desired.
 
 Another option is just not to use `/def` and rely only on the whitespace and punctuation rules.
+The nice thing about this approach is that it requires no
+knowledge of the particular Lisp dialect that the code is being written for and just relies on simple
+transformations.
+
 Here's mergesort from earlier written in this fashion:
 ```racket
 define: (mergesort x)
@@ -272,8 +276,9 @@ define: (mergesort x)
                                   | else                      cons: (first b) (merge a      rest b)
             (merge (mergesort left) (mergesort right))
 ```
-This approach just uses colons for parentheses that span multiple lines and allow whitespace and the positions of
-visible parentheses to determine when they should be closed. The nice thing about it is that it requires no
-knowledge of the particular Lisp dialect that the code is being written for and just relies on simple
-transformations.
+This approach just uses colons for parentheses that span multiple lines and allows whitespace and the positions of
+visible parentheses to determine when they should be closed. Importantly, the left boundaries of most
+subexpressions that span multiple lines, like `define`, `if`, `letrec`, `lambda`, and `cond`, are still
+only explicitly delimited once using the colon syntax, so removing or modifying any of them only
+involves making edits in one location and doesn't involve finding and adjusting the proper closing parenthesis.
 
