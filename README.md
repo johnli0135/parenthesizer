@@ -1,8 +1,50 @@
 # Parenthesizer
 
-A command line utility that uses whitespace/punctuation rules and 2 special characters (`|` and `:`) to generate properly parenthesized code for LISP dialects from a cleaner syntax that's faster to write in.
+A command line utility that generates properly parenthesized code for LISP dialects.
+With the help of directives that give information about operator arity,
+whitespace/punctuation rules, and a few special characters (`_`, `|`, and `:`),
+arbitrarily many parentheses can be omitted.
+This makes it easier to write code quickly without having to worry about syntax errors.
 
 Usage: `python parenthesizer.py <input file>` outputs properly parenthesized code
+
+## Example
+
+An implementation of mergesort:
+```racket
+/use racket.txt
+/def mergesort 1
+define (mergesort x)
+    if or (empty? x) (empty? rest x)
+        x
+        letrec : | half   floor / (length x) 2
+                 | left   take x half
+                 | right  drop x half
+                 | merge  lambda (a b)
+                             cond
+                                 | (empty? a)            b
+                                 | (empty? b)            a
+                                 | (<= first a first b)  cons first a (merge rest a b)
+                                 | else                  cons first b (merge a      rest b)
+            (merge (mergesort left) (mergesort right))
+```
+
+The properly parenthesized output:
+```racket
+(define (mergesort x)
+    (if (or (empty? x) (empty? (rest x)))
+        x
+        (letrec ([half (floor (/ (length x) 2))]
+                 [left (take x half)]
+                 [right (drop x half)]
+                 [merge (lambda (a b)
+                             (cond
+                                 [(empty? a) b]
+                                 [(empty? b) a]
+                                 [(<= (first a) (first b)) (cons (first a) (merge (rest a) b))]
+                                 [else (cons (first b) (merge a (rest b)))]))])
+            (merge (mergesort left) (mergesort right)))))
+```
 
 ## Directives
 
@@ -188,19 +230,9 @@ A single pipe character can be used in place of square brackets. It generates an
 that is automatically closed by the above rules on indentation and explicit use of parentheses. These can be
 used to simplify the appearance of expressions that involve collections of subexpressions (e.g. `let` or `cond` forms).
 
-e.g. in `merge` of `mergesort`:
-```racket
-define (merge a b)
-    cond
-        | (empty? a)            b
-        | (empty? b)            a
-        | (<= first a first b)  cons first a (merge rest a b)
-        | else                  cons first b (merge a      rest b)
-```
+Colons can be used like pipe characters, but they generate opening parentheses instead of square brackets.
 
-Like pipe characters, a single colon can be used in place of parentheses.
-
-e.g. in `letrec` block of this quicksort implementation:
+Here's an example of both being used in an implementation of quicksort:
 ```racket
 define (quicksort x)
     if empty? x
