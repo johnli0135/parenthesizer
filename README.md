@@ -207,7 +207,7 @@ generates
 ## Pipes
 
 A single pipe character can be used in place of square brackets, like a colon that only works on the empty
-operator ` ` and generates square brackets instead of parentheses.
+operator ` `  and generates square brackets instead of parentheses.
 These can be used to simplify the appearance of expressions that involve collections of subexpressions
 (e.g. `let`, `cond`, and `match` expressions).
 
