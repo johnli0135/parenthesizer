@@ -204,7 +204,7 @@ generates
             (merge (mergesort left) (mergesort right)))))
 ```
 
-## Pipes and colons
+## Pipes
 
 A single pipe character can be used in place of square brackets, like a colon that only works on the empty
 operator ` ` and generates square brackets instead of parentheses.
