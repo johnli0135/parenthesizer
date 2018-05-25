@@ -4,7 +4,13 @@ A command line utility that generates properly parenthesized code for Lisp diale
 With the help of directives that give information about operator arity,
 whitespace/punctuation rules, and a few special characters (`_`, `|`, and `:`),
 arbitrarily many parentheses can be omitted.
-This makes it easier to write code quickly without having to worry about syntax errors.
+
+This syntactic sugar allows the left- and right-most boundaries of most subexpressions
+to be delimited only once at the left boundary (rather than at both ends with opening and
+closing parentheses).
+This means that adding or removing extra nesting of expressions involves editing around
+half as many regions of code and does not require manually mantaining balanced parentheses,
+making it easier to write/edit programs quickly without worrying about syntax errors.
 
 Usage: `python parenthesizer.py <input file>` outputs properly parenthesized code
 
@@ -270,3 +276,4 @@ This approach just uses colons for parentheses that span multiple lines and allo
 visible parentheses to determine when they should be closed. The nice thing about it is that it requires no
 knowledge of the particular Lisp dialect that the code is being written for and just relies on simple
 transformations.
+
