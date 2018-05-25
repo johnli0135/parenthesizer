@@ -114,7 +114,7 @@ A colon at the end of an operator name forces the operator to take a variable nu
 >: 5 4 3 2 1.
 ```
 
-A single colon forces the "operator ``" to take a variable number of arguments. This is essentially
+A single colon forces the "operator ` `" to take a variable number of arguments. This is essentially
 equivalent to an open parenthesis that can be automatically closed by the whitespace and deduction
 rules described below.
 
@@ -207,7 +207,7 @@ define (fact n)
 ## Pipes and colons
 
 A single pipe character can be used in place of square brackets, like a colon that only works on the empty
-operator `` and generates square brackets instead of parentheses.
+operator ` ` and generates square brackets instead of parentheses.
 These can be used to simplify the appearance of expressions that involve collections of subexpressions
 (e.g. `let`, `cond`, and `match` expressions).
 
