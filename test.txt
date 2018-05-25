@@ -118,3 +118,79 @@ let : | a 1
       | b 2
       | c 3
     +: a b c
+
+let* : | x  random 100
+       | y  random + x 1
+  list (+ x y) x y
+
+letrec : | fac  lambda (n)
+                  if = 0 n
+                    1
+                    * n (fac sub1 n)
+  map _fac (range 10)
+
+for*/list : | i  range 1 20
+            | j  range i 20
+            | k  range j 20
+            #:when = (+ sqr i sqr j) sqr k
+  list i j k
+
+/def rem-dups 1
+define (rem-dups s)
+  match s
+    | (list)             (list)
+    | (list-rest a a p)  rem-dups (cons a p)
+    | (list-rest a p)    cons a (rem-dups p)
+
+map _rem-dups
+  list
+    list
+    list 1
+    list 1 1
+    list 1 2 1
+    list 1 1 1 2
+    list 1 1 2 2 3 1
+
+/def qsort1 1
+define (qsort1 s)
+  cond
+    | (or empty? s empty? rest s)  s
+    | else                         let*-values : | (p)            first s
+                                                 | (split)        lambda (x) < x p
+                                                 | (lower upper)  partition split (rest s)
+                                     append (qsort1 lower) (list p) (qsort1 upper)
+
+qsort1 list 3 14 15 92 6 53 58 97 93 23
+
+/def vector-swap 3
+define (vector-swap vec i j)
+  let : | t  vector-ref vec i
+    vector-set! vec i (vector-ref vec j)
+    vector-set! vec j t
+
+/def part 4
+define (part vec left right p)
+  define pivot (vector-ref vec p)
+  vector-swap vec p right
+  define border left
+  for : | i     range left right
+        #:when  <= (vector-ref vec i) pivot
+    vector-swap vec i border
+    set! border (add1 border)
+  vector-swap vec border right
+  border
+
+/def qsort2 1
+define (qsort2 vec)
+  define (sort left right)
+    when (< left right)
+      let* : | p   + left (random - right left)
+             | p*  part vec left right p
+        sort left (sub1 p*)
+        sort (add1 p*) right
+  (sort 0 (sub1 vector-length vec))
+
+let : | blah  vector 3 14 15 92 6 53 58 97 93 23
+  qsort2 blah
+  blah
+

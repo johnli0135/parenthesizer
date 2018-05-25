@@ -203,8 +203,7 @@ def parenthesize(lines):
         del masked[name]
 
   def comment(*args):
-    newline()
-    write("; " + " ".join(args))
+    pass
 
   def disable(*args):
     disabled[0] = True
@@ -254,19 +253,19 @@ def parenthesize(lines):
       for token, pos in lex(code, closing_punctuation + braces):
         #print(token, result, demands, scopes, demand_braces)
         new_indent = indent + pos
-        if token in bindings and token not in masked:
+        # forced variadic binding
+        if token[-1] == force_variadic:
+          #if len(buffer()) > 0 and buffer()[-1] in opening_braces: # there is a superfluous paren
+          #  append(token[:-1]) # dont' demand anything and let the paren handle it
+          #else:
+          append("(" + token[:-1])
+          demand(variadic, new_indent)
+        elif token in bindings and token not in masked:
           if len(buffer()) > 0 and buffer()[-1] in opening_braces: # there is a superfluous paren
             append(token) # dont' demand anything and let the paren handle it
           else:
             append("(" + token)
             demand(bindings[token], new_indent)
-        # forced variadic binding
-        elif token[-1] == force_variadic and token[:-1] in bindings and token[:-1] not in masked:
-          if len(buffer()) > 0 and buffer()[-1] in opening_braces: # there is a superfluous paren
-            append(token[:-1]) # dont' demand anything and let the paren handle it
-          else:
-            append("(" + token[:-1])
-            demand(variadic, new_indent)
         elif token in closing_punctuation:
           resolve()
         elif token in closing_braces:
