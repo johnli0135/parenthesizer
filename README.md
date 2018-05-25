@@ -140,7 +140,7 @@ will generate
       y))
 ```
 
-Using whitespace to rewrite the punctuation example from earlier:
+Using whitespace, you can drop the trailing `..` from the earlier punctuation example:
 ```racket
 define one-to-nine
     append list 1 2 3. list 4 5 6. list 7 8 9
