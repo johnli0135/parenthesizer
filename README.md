@@ -224,8 +224,8 @@ Here's an example of pipes being used in an implementation of quicksort:
 define (quicksort x)
     match x
         | (list)           (list)
-        | (list-rest p y)  letrec : | l  filter lambda (a) <= a p. y
-                                    | r  filter lambda (a) >  a p. y
+        | (list-rest p y)  let*-values : | (f)    lambda (a) <= a p
+                                         | (l r)  partition f y
                                append (quicksort l) (list p) (quicksort r)
 ```
 
