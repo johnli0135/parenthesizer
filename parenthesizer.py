@@ -290,6 +290,9 @@ def parenthesize(lines):
 
   return result, bindings
 
-source = sys.argv[1]
-result, bindings = parenthesize(open(source))
+if len(sys.argv) == 2:
+  source = open(sys.argv[1])
+else:
+  source = sys.stdin
+result, bindings = parenthesize(source)
 print("\n".join(result))
