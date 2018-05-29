@@ -1,7 +1,6 @@
 import sys
 
 def lex(line, symbols):
-  # \ is the universal escape character (the next char is always interpreted verbatim)
   # recognize strings and braces and symbols (numbers are just symbols)
   DEFAULT = 0
   IDENTIFIER = 1
@@ -21,9 +20,6 @@ def lex(line, symbols):
     if c in symbols:
       symbol[0] = c
       return SYMBOL, False
-    if c == "\\":
-      ret[0] = DEFAULT
-      return ESCAPE, False
     if c == '"':
       reset_token(c)
       return STRING, False
@@ -36,9 +32,6 @@ def lex(line, symbols):
     if c in symbols:
       symbol[0] = c
       return SYMBOL, True
-    if c == "\\":
-      ret[0] = IDENTIFIER
-      return ESCAPE, False
     if c.isspace():
       return DEFAULT, True
     token.append(c)
