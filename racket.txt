@@ -20,7 +20,7 @@
 /def all-from-out
 /def and 2
 /def and/c
-/def andmap
+/def andmap 2
 /def angle 1
 /def any
 /def any/c
@@ -1391,7 +1391,7 @@
 /def or 2
 /def or/c
 /def order-of-magnitude 1
-/def ormap
+/def ormap 2
 /def output-port? 1
 /def overment
 /def overment*
@@ -1617,7 +1617,7 @@
 /def raise-syntax-error 2
 /def raise-type-error 3
 /def raise-user-error
-/def random
+/def random 1
 /def random-seed 1
 /def range 2
 /def rational? 1
@@ -1958,7 +1958,7 @@
 /def subprocess-pid 1
 /def subprocess-status  1
 /def subprocess-wait 1
-/def substring 2
+/def substring 3
 /def super
 /def super-instantiate
 /def super-make-object

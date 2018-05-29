@@ -227,6 +227,10 @@ def parenthesize(lines):
     # extract indentation level and code
     line = l.rstrip()
     code = line.lstrip()
+
+    if code == "": # skip blank lines
+      continue
+
     indent = len(line) - len(code)
 
     # if directive, handle it and skip this line
