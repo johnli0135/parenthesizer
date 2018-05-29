@@ -20,6 +20,9 @@ def lex(line, symbols):
     if c in symbols:
       symbol[0] = c
       return SYMBOL, False
+    if c == "\\":
+      ret[0] = DEFAULT
+      return ESCAPE, False
     if c == '"':
       reset_token(c)
       return STRING, False
@@ -32,6 +35,9 @@ def lex(line, symbols):
     if c in symbols:
       symbol[0] = c
       return SYMBOL, True
+    if c == "\\":
+      ret[0] = IDENTIFIER
+      return ESCAPE, False
     if c.isspace():
       return DEFAULT, True
     token.append(c)
