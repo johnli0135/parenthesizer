@@ -66,6 +66,9 @@ Knowledge of operator arity is given through directives. A directive is any line
 
 `/unmask f ...`: undo `/mask f ...`.
 
+`/describe f ...`: emit a line comment describing operators `f ...` (e.g. whether they are currently bound,
+their arity, and whether they are masked).
+
 `//`: line comment.
 
 `/off`: disable any parenthesizing until the next `/on` directive (i.e. copy lines verbatim).

@@ -117,6 +117,10 @@ def parenthesize(lines):
   def newline():
     result.append("")
 
+  def writeln(s):
+    newline()
+    write(s)
+
   # create a new demand
   def demand(value, indent_level, closing_brace = ")"):
     demands.append(value)
@@ -201,6 +205,21 @@ def parenthesize(lines):
       if name in masked:
         del masked[name]
 
+  def describe(*names):
+    for name in names:
+      if name not in bindings:
+        writeln("; `" + name + "` is unbound")
+        if name in masked:
+          write(", but masked")
+      else:
+        writeln("; `" + name + "` is an operator")
+        if bindings[name] == variadic:
+          write(" with unknown arity")
+        else:
+          write(" with default arity = " + str(bindings[name]))
+        if name in masked:
+          write(", but masked")
+
   def comment(*args):
     pass
 
@@ -216,6 +235,7 @@ def parenthesize(lines):
     "del": delete,
     "mask": mask,
     "unmask": unmask,
+    "describe": describe,
     "/": comment,
     "off": disable,
     "on": enable
@@ -232,6 +252,9 @@ def parenthesize(lines):
       continue
 
     indent = len(line) - len(code)
+    # close any brackets from indentation changes
+    if not disabled[0] and last_indent is not None and indent <= last_indent:
+      deindent(last_indent, indent)
 
     # if directive, handle it and skip this line
     if code.startswith(prefix):
@@ -246,11 +269,6 @@ def parenthesize(lines):
       write(line)
     # a normal line of code
     else:
-      # close any brackets from indentation changes
-      if last_indent is not None and indent <= last_indent:
-        deindent(last_indent, indent)
-
-      # handle the new line
       newline()
       write(" " * indent)
       for token, pos in lex(code, closing_punctuation + braces):
