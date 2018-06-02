@@ -2,7 +2,7 @@
 
 A command line utility that generates properly parenthesized code for Lisp dialects.
 With the help of directives that give information about operator arity,
-whitespace/punctuation rules, and a few special characters (`_`, `|`, and `:`),
+whitespace/punctuation rules, and a few special characters (`_`, `|`, `;`, and `:`),
 arbitrarily many parentheses can be omitted.
 
 The syntactic sugar implemented here allows the left- and right-most boundaries of most
@@ -113,25 +113,25 @@ define (fact n)
 
 ## Punctuation
 
-A period serves as a closing parenthesis for an operator that takes a variable number of arguments.
+A semicolon serves as a closing parenthesis for an operator that takes a variable number of arguments.
 
 ```racket
 /use racket.txt
 define one-to-nine
-    append list 1 2 3. list 4 5 6. list 7 8 9..
+    append list 1 2 3. list 4 5 6. list 7 8 9;;
 ```
 
 A colon at the end of an operator name forces the operator to take a variable number of arguments:
 ```
 // becomes (+ 1 2 3) => 6
-+: 1 2 3.
++: 1 2 3;
 
 // becomes (> 5 4 3 2 1) => #t
->: 5 4 3 2 1.
+>: 5 4 3 2 1;
 ```
 
 A single colon forces the "operator ` `" to take a variable number of arguments. This is essentially
-equivalent to an open parenthesis that can be automatically closed by periods and by the whitespace and deduction
+equivalent to an open parenthesis that can be automatically closed by semicolons and by the whitespace and deduction
 rules described below.
 
 ## Whitespace
@@ -160,10 +160,10 @@ will generate
       y))
 ```
 
-Using whitespace, you can drop the trailing `..` from the earlier punctuation example:
+Using whitespace, you can drop the trailing `;;` from the earlier punctuation example:
 ```racket
 define one-to-nine
-    append list 1 2 3. list 4 5 6. list 7 8 9
+    append list 1 2 3; list 4 5 6; list 7 8 9
 ```
 
 ## Automatically deducing closing parentheses for variadic operators

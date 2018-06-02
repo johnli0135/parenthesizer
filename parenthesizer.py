@@ -80,7 +80,7 @@ def lex(line, symbols):
 
 def parenthesize(lines):
   prefix = "/"
-  closing_punctuation = "."
+  closing_punctuation = ";"
   opening_braces = "[{("
   closing_braces = ")}]"
   braces = opening_braces + closing_braces

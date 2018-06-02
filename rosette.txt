@@ -9,3 +9,32 @@
 /def define/debug
 /def debug
 /def current-bitwidth
+/def evaluate 2
+/def ! 1
+/def || 2
+/def && 2
+/def constant 2
+/def ??
+/def choose
+/def define-synthax
+/def current-solver
+/def solver? 1
+/def solver-assert 2
+/def solver-push 1
+/def solver-pop 2
+/def solver-clear 1
+/def solver-minimize 2
+/def solver-maximize 2
+/def solver-check 1
+/def solver-debug 1
+/def solver-shutdown 1
+/def z3
+/def solution? 1
+/def sat? 1
+/def unsat? 1
+/def unknown? 1
+/def sat
+/def unsat
+/def unknown
+/def model
+/def core
