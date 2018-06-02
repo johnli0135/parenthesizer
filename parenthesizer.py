@@ -87,6 +87,7 @@ def parenthesize(lines):
   force_variadic = ":"
   pseudo_bracket = "|"
   escape = "_"
+  use_extension = ".txt"
 
   # codes for demands[]
   variadic = -1
@@ -170,7 +171,7 @@ def parenthesize(lines):
 
   # directives
   def use(filename):
-    r, b = parenthesize(open(filename))
+    r, b = parenthesize(open(filename + use_extension))
     result.extend(r)
     for binding in b:
       bindings[binding] = b[binding]
