@@ -5,20 +5,13 @@ With the help of directives that give information about operator arity,
 whitespace/punctuation rules, and a few special characters (`_`, `|`, `;`, and `:`),
 arbitrarily many parentheses can be omitted.
 
-The syntactic sugar implemented here allows the left- and right-most boundaries of most
-subexpressions to be delimited only once at the left boundary (rather than at
-both ends with opening and closing parentheses).
-This means that adding or removing extra nesting of expressions involves editing around
-half as many regions of code and does not require manually mantaining balanced parentheses,
-making it easier to write/edit programs quickly without worrying about syntax errors.
-
 Usage: `python parenthesizer.py <input file>` outputs properly parenthesized code
 
 ## Example
 
 An implementation of mergesort:
 ```racket
-/use racket.txt
+/use racket
 /def mergesort 1
 define (mergesort x)
     if or (empty? x) (empty? rest x)
@@ -77,9 +70,7 @@ their arity, and whether they are masked).
 
 ## Basic transformations
 
-Since directives tell the parenthesizer the arity of common operators, many parentheses can be omitted.
-
-For example,
+Many parentheses can be omitted already with knowledge of operator arity:
 ```racket
 (define (fact n)
     (if (= n 0)
@@ -88,15 +79,7 @@ For example,
 ```
 can be written as
 ```racket
-/use racket.txt
-(define (fact n)
-    if = n 0
-        1
-        * n (fact - n 1))
-```
-or even
-```racket
-/use racket.txt
+/use racket
 /def fact 1
 (define fact n
     if = n 0
@@ -104,22 +87,12 @@ or even
         * n fact - n 1)
 ```
 
-Superfluous parentheses can also be added for clarity:
-```racket
-/use racket.txt
-define (fact n)
-   // = doesn't need to be parenthesized
-   if (= n 0)
-       1
-       * n (fact - n 1)
-```
-
 ## Punctuation
 
 A semicolon serves as a closing parenthesis for an operator that takes a variable number of arguments.
 
 ```racket
-/use racket.txt
+/use racket
 define one-to-nine
     append list 1 2 3. list 4 5 6. list 7 8 9;;
 ```
@@ -134,8 +107,8 @@ A colon at the end of an operator name forces the operator to take a variable nu
 ```
 
 A single colon forces the "operator ` `" to take a variable number of arguments. This is essentially
-equivalent to an open parenthesis that can be automatically closed by semicolons and by the whitespace and deduction
-rules described below.
+equivalent to an open parenthesis that can be automatically closed by semicolons, whitespace, and
+deduction rules below.
 
 ## Whitespace
 
@@ -147,7 +120,7 @@ Indentations are preserved after addition of parentheses.
 
 For example,
 ```racket
-/use racket.txt
+/use racket
 define (f x y)
     +
         x
@@ -222,7 +195,7 @@ These can be used to simplify the appearance of expressions that involve collect
 
 Here's an example of pipes being used in an implementation of quicksort:
 ```racket
-/use racket.txt
+/use racket
 /def quicksort 1
 define (quicksort x)
     match x
@@ -235,7 +208,7 @@ define (quicksort x)
 ## Escaping
 
 A downside of automatically parenthesizing operators based on their assumed arity is that it's difficult to
-treat operators like first-class objects.
+use operators as values.
 
 For example, to construct a list of basic arithmetic operators,
 ```racket
@@ -280,8 +253,4 @@ define: (mergesort x)
             (merge (mergesort left) (mergesort right))
 ```
 This approach just uses colons for parentheses that span multiple lines and allows whitespace and the positions of
-visible parentheses to determine when they should be closed. Importantly, the left boundaries of most
-subexpressions that span multiple lines, like `define`, `if`, `letrec`, `lambda`, and `cond`, are still
-only explicitly delimited once using the colon syntax, so removing or modifying any of them only
-involves making edits in one location and doesn't involve finding and adjusting the proper closing parenthesis.
-
+visible parentheses to determine when they should be closed.

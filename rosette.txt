@@ -1,40 +1,84 @@
-/def define-symbolic
-/def define-symbolic*
-/def assert 1
-/def solve 1
-/def solve+ 0
-/def verify 1
-/def synthesize
-/def optimize
-/def define/debug
-/def debug
-/def current-bitwidth
-/def evaluate 2
+/def <=>
+/def ??
 /def ! 1
+/def ~> 2
+/def => 2
 /def || 2
 /def && 2
-/def constant 2
-/def ??
+/def assert 1
+/def bitvector? 1
+/def bitvector->integer 1
+/def bitvector->natural 1
+/def bv? 1
+/def bv 2
+/def bvadd 2
+/def bvand 2
+/def bvashr 2
+/def bveq 2
+/def bvlshr 2
+/def bvmul 2
+/def bvneg 1
+/def bvnot 1
+/def bvor 2
+/def bvsdiv 2
+/def bvsge 2
+/def bvsgt 2
+/def bvshl 2
+/def bvsle 2
+/def bvslt 2
+/def bvsmod 2
+/def bvsrem 2
+/def bvsub 2
+/def bvudiv 2
+/def bvuge 2
+/def bvugt 2
+/def bvule 2
+/def bvult 2
+/def bvurem 2
+/def bvxor 2
 /def choose
-/def define-synthax
+/def clear-asserts! 0
+/def concat
+/def constant 2
+/def core
+/def current-bitwidth
 /def current-solver
+/def debug
+/def define/debug
+/def define-symbolic
+/def define-symbolic*
+/def define-synthax
+/def evaluate 2
+/def exists 2
+/def extract 3
+/def forall 2
+/def function? 1
+/def fv? 1
+/def integer->bitvector 2
+/def model
+/def optimize
+/def sat
+/def sat? 1
+/def sign-extend 2
+/def solution? 1
+/def solvable? 1
+/def solve+ 0
+/def solve 1
 /def solver? 1
 /def solver-assert 2
-/def solver-push 1
-/def solver-pop 2
-/def solver-clear 1
-/def solver-minimize 2
-/def solver-maximize 2
 /def solver-check 1
+/def solver-clear 1
 /def solver-debug 1
+/def solver-maximize 2
+/def solver-minimize 2
+/def solver-pop 2
+/def solver-push 1
 /def solver-shutdown 1
-/def z3
-/def solution? 1
-/def sat? 1
-/def unsat? 1
-/def unknown? 1
-/def sat
-/def unsat
+/def synthesize
 /def unknown
-/def model
-/def core
+/def unknown? 1
+/def unsat
+/def unsat? 1
+/def verify 1
+/def z3
+/def zero-extend 2
